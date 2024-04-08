@@ -42,7 +42,7 @@ void main() {
 	float dir_ray_y = ( pos_ray_y - pos_eye_y ) ;
 	float dir_ray_z = ( pos_ray_z - pos_eye_z ) ;
 
-	float L = sqrt( dir_ray_x*dir_ray_x + dir_ray_y*dir_ray_y + pos_ray_z*pos_ray_z);
+	float L = sqrt( (dir_ray_x*dir_ray_x) + (dir_ray_y*dir_ray_y) + (pos_ray_z*pos_ray_z));
 
 	dir_ray_x = dir_ray_x / L ;
 	dir_ray_y = dir_ray_y / L ;
@@ -50,10 +50,10 @@ void main() {
 
 	if(step > 0) {
 		int color = 0;
-		for (float i = 0; i < 100; i++) {
+		for (float i = 0.9; i < 100.9; i++) {
 			// Is in 3D Matrix ?
-		 	if (pos_ray_x >= pos_mat_3D_x && ... ) {
-				int pos_ray = pos_ray_x + pos_ray_y * 128;
+		 	if (pos_ray_x >= pos_mat_3D_x && pos_ray_y >= pos_mat_3D_y && pos_ray_z>= pos_mat_3D_z ) {
+				int pos_ray = int(pos_ray_x + pos_ray_y * 128); // Should be an integer
 				if (data_1[pos_ray] > 0) color = 0xFFFFFFFF ;
 			}
 		}
