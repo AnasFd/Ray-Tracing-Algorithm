@@ -7,7 +7,8 @@
 
 [node name="ComputeShaderStudio2D" type="Node" parent="." node_paths=PackedStringArray("data")]
 script = ExtResource("2_tleyh")
-GLSL_code = "// data_1 is for the \"retina\". data_0 is for the matrix.
+print_step = true
+GLSL_code = "// data_0 is for the \"retina\". data_1 is for the matrix.
 void main() {
 	// TODO: Look up what do these stand for
 	uint x = gl_GlobalInvocationID.x; 
@@ -17,53 +18,58 @@ void main() {
 	// Init
 	if (step == 0)  {
 		if ( ( (x/16+y/16) ) % 2 == 0)
-			data_1[p] = 0;
+			data_1[p] =  0xFFFFFFFF;
 		else
 			data_1[p] = 0xFFFFFFFF ;
 	}
 
 	// RayTracing
-	float pos_mat_3D_x = 0.0f ;
+	float pos_mat_3D_x = 100.0 * sin(step/100.0);
 	float pos_mat_3D_y = 0.0f ;
 	float pos_mat_3D_z = 0.0f ;
 
-	float pos_mat_ret_x = 64 - 32;
-	float pos_mat_ret_y = 64 - 32;
+	float pos_mat_ret_x = 64;
+	float pos_mat_ret_y = 64;
 	float pos_mat_ret_z = 64;
 
-	float pos_eye_x = 64;
-	float pos_eye_y = 64;
-	float pos_eye_z = 120;
+	float size_mat_ret = 32.0;
 
-	float pos_ray_x = x + pos_mat_ret_x ;
-	float pos_ray_y = y + pos_mat_ret_y ;
+	float pos_eye_x = 64.0;
+	float pos_eye_y = 64.0;
+	float pos_eye_z = 100.0;
+
+	float pos_ray_x = x * size_mat_ret / 128.0 + pos_mat_ret_x; 
+	float pos_ray_y = y * size_mat_ret / 128.0 + pos_mat_ret_y;
 	float pos_ray_z = pos_mat_ret_z;
 
 	float dir_ray_x = ( pos_ray_x - pos_eye_x ) ;
 	float dir_ray_y = ( pos_ray_y - pos_eye_y ) ;
 	float dir_ray_z = ( pos_ray_z - pos_eye_z ) ;
 
-	// L for Length, Here it's the length of the ray vector
-	float L = sqrt( (dir_ray_x*dir_ray_x) + (dir_ray_y*dir_ray_y) + (pos_ray_z*pos_ray_z)); 
+	int color = int(dir_ray_y * 1000) +  0xFF000000;
 
+	// L for Length, Here it's the length of the ray vector
+	float L = sqrt( (dir_ray_x*dir_ray_x) + (dir_ray_y*dir_ray_y) + (dir_ray_z*dir_ray_z)); 
+	L = L/4.0;
 	dir_ray_x = dir_ray_x / L ;
 	dir_ray_y = dir_ray_y / L ;
 	dir_ray_z = dir_ray_z / L ;
 
 	if(step > 0) {
-		int color = 0;
-		for (float i = 0; i < 100; i++) {
+		for (int i = 0; i < 1000; i++) {
 			// Is in 3D Matrix ? Color it white
-		 	if (pos_ray_x >= pos_mat_3D_x && pos_ray_y >= pos_mat_3D_y && pos_ray_z >= pos_mat_3D_z ) {
-				// Whithout converting to int -> Error. Should it remain an int or change it to float ? What's the diffrence?
-				int pos_ray = int(pos_ray_x + pos_ray_y * 128); 
-				if (data_1[pos_ray] > 0) color = 0xFFFFFFFF ;
+		 	if (pos_ray_x >= pos_mat_3D_x && pos_ray_y >= pos_mat_3D_y   && pos_ray_x < (pos_mat_3D_x + 128) && 	pos_ray_y < (pos_mat_3D_y + 128) ) {
+				int pos_ray = int(pos_ray_x) + int(pos_ray_y) * 128;
+				if (data_1[pos_ray] > 0) color = 0x99999999;
 			}
+			pos_ray_x += dir_ray_x;
+			pos_ray_y += dir_ray_y;
+			pos_ray_z += dir_ray_z;
 		}
-		data_1[p] = color; // Otherwise color it black (also in the begging it was data_0 changed it to data_1)
+		data_0[p] = color;
+// && pos_ray_z >= pos_mat_3D_z
+// && pos_ray_z < (pos_mat_3D_z+1) 
 	}
-
-	// Ray Tracing algorithm done for a \"2D\" Matrix ?
 }
 "
 data = [NodePath("../Retina"), NodePath("../Matrice3D")]
