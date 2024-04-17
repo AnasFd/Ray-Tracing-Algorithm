@@ -1,63 +1,95 @@
 // data_0 is for the "retina". data_1 is for the matrix.
 void main() {
-	// TODO: Look up what do these stand for
-	uint x = gl_GlobalInvocationID.x; 
-	uint y = gl_GlobalInvocationID.y;
-	uint p = x + y * WSX;
+  uint x = gl_GlobalInvocationID.x;
+  uint y = gl_GlobalInvocationID.y;
+  uint p = x + y * WSX;
 
-	// Init
-	if (step == 0)  {
-		if ( ( (x/16+y/16) ) % 2 == 0)
-        data_1[p] = 0xFF000000 + (int(x) + 128*int(y)) ;
-	}
+  // Init
+  if (step == 0) {
+    if (((x / 16 + y / 16)) % 2 == 0)
+      // data_1[p] = 0xFF000000 + (int(x) + 128*int(y)) ;
+      data_1[p] = 0xFF000000;
+  }
 
-	// RayTracing
-	float pos_mat_3D_x = 0.0f ;
-	float pos_mat_3D_y = 0; //100.0 * sin(step / 100.0);
-	float pos_mat_3D_z = -100 + 100.0 * sin(step / 50.0);
+  // RayTracing
+  /******************** 3D Matrix variables ********************/
+  // Position
+  float pos_mat_3D_x = 0.0;
+  float pos_mat_3D_y = 0.0; // 100.0 * sin(step / 100.0);
+  float pos_mat_3D_z = 0.0; //-100 + 100.0 * sin(step / 50.0);
+  // Size
+  float size_mat_3D_x = 128.0;
+  float size_mat_3D_y = 128.0;
+  float size_mat_3D_z = 1.0;
+  /******************** Retina variables ********************/
+  // Position
+  float pos_ret_x = 64.0;
+  float pos_ret_y = 64.0;
+  float pos_ret_z = 64.0;
+  // Size
+  float size_ret = 8.0;
 
-	float pos_mat_ret_x = 64;
-	float pos_mat_ret_y = 64;
-	float pos_mat_ret_z = 64;
+  /******************** Eye variables ********************/
+  float pos_eye_x = pos_ret_x + (size_ret / 2);
+  float pos_eye_y = pos_ret_y + (size_ret / 2);
+  float pos_eye_z = pos_ret_z + (size_ret / 2);
 
-	float size_mat_ret = 8.0;
+  /******************** Ray variables ********************/
+  // Position
+  float pos_ray_x = pos_ret_x + x * size_ret / size_mat_3D_x;
+  float pos_ray_y = pos_ret_y + y * size_ret / size_mat_3D_y;
+  float pos_ray_z = pos_ret_z;
+  // Direction
+  float dir_ray_x = pos_ray_x - pos_eye_x;
+  float dir_ray_y = pos_ray_y - pos_eye_y;
+  float dir_ray_z = pos_ray_z - pos_eye_z;
 
-	float pos_eye_x = 64.0 + 20.0*sin(step / 100.0);
-	float pos_eye_y = 64.0;
-	float pos_eye_z = 70.0;
+  // Normalization of Direction
+  // First, we calculate the length of the ray vector using the Euclidean
+  // distance formula
+  float L = sqrt((dir_ray_x * dir_ray_x) + (dir_ray_y * dir_ray_y) +
+                 (dir_ray_z * dir_ray_z));
+  // Normalizing the vector
+  dir_ray_x = dir_ray_x / L;
+  dir_ray_y = dir_ray_y / L;
+  dir_ray_z = dir_ray_z / L;
 
-	float pos_ray_x = pos_mat_ret_x + x * size_mat_ret / 128.0 ; 
-	float pos_ray_y = pos_mat_ret_y + y * size_mat_ret / 128.0;
-	float pos_ray_z = pos_mat_ret_z;
+  /* This next code segment traces a ray through the 3D matrix,
+   * checking for intersections with the defined regions.
+   * If an intersection is found, it retrieves the corresponding color value
+   * from the 3D matrix and assigns it to the output array data_0 (the Retina).
+   * The ray's length is limited to MAX_RAY_LENGTH iterations to prevent infinite loops.
+   * The loop iterates through the ray's path, updating its position at each
+   * step based on its direction vector. If the ray is inside the 3D matrix, the
+   * loop terminates early to optimize computation. */
 
-	float dir_ray_x = ( pos_ray_x - pos_eye_x ) ;
-	float dir_ray_y = ( pos_ray_y - pos_eye_y ) ;
-	float dir_ray_z = ( pos_ray_z - pos_eye_z ) ;
+  int color = 0; // color init
+  // Calculating the diagonal distance across the 3D matrix
+  float diagonal_distance = sqrt(pow(size_mat_3D_x, 2) + pow(size_ret, 2));
 
-	int color = 0;
+  // Safety margin (10%)
+  float safety_margin = 0.1 * diagonal_distance;
 
-	// L for Length, Here it's the length of the ray vector
-	float L = sqrt( (dir_ray_x*dir_ray_x) + (dir_ray_y*dir_ray_y) + (dir_ray_z*dir_ray_z)); 
-	L = L*2.0;
-	dir_ray_x = dir_ray_x / L ;
-	dir_ray_y = dir_ray_y / L ;
-	dir_ray_z = dir_ray_z / L ;
+  // Calculate the maximum ray length
+  int MAX_RAY_LENGTH = int(diagonal_distance + safety_margin);
 
-	if(step > 0) {
-		for (int i = 0; i < 600; i++) {
-			// Is in 3D Matrix ? Color it white
-		 	if (pos_ray_x >= pos_mat_3D_x && pos_ray_y >= pos_mat_3D_y && pos_ray_x < (pos_mat_3D_x + 128) && pos_ray_y < (pos_mat_3D_y + 128) ) {
-                 if ( pos_ray_z >= pos_mat_3D_z && pos_ray_z < pos_mat_3D_z+1 ) {
-                    int pos_ray = int(pos_ray_x) + int(pos_ray_y) * 128;
-                    color = data_1[pos_ray];
-                    i = 600;
-                 }
-			}
-			pos_ray_x += dir_ray_x;
-			pos_ray_y += dir_ray_y;
-			pos_ray_z += dir_ray_z;
-		}
-		data_0[p] = color;
-
-	}
+  if (step > 0) {
+    for (int i = 0; i < MAX_RAY_LENGTH; i++) {
+      // Is in 3D Matrix
+      if (pos_ray_x >= pos_mat_3D_x && pos_ray_y >= pos_mat_3D_y &&
+          pos_ray_z >= pos_mat_3D_z &&
+          pos_ray_x < (pos_mat_3D_x + size_mat_3D_x) &&
+          pos_ray_y < (pos_mat_3D_y + size_mat_3D_y) &&
+          pos_ray_z < (pos_mat_3D_z + size_mat_3D_z)) {
+        int pos_ray = int(pos_ray_x) + int(pos_ray_y) * int(size_mat_3D_x);
+        color = data_1[pos_ray] == 0xFF000000 ? data_1[pos_ray] : 0x00FFFFFF;
+        break; // If we've reached this far it means that the ray traveled
+               // through of the 3d matrix so we can move on to the next position
+      }
+      pos_ray_x += dir_ray_x;
+      pos_ray_y += dir_ray_y;
+      pos_ray_z += dir_ray_z;
+    }
+    data_0[p] = color;
+  }
 }

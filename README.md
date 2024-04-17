@@ -1,12 +1,10 @@
 # Ray-Tracing-Algorithm
 
 ## TODO
-- Fix 1st algo
-- 2
-- 3
 
 ## In progress
-- Understanding Compute Shaders Studio
+- Creating a 3D scene to apply the ray tracing algorithm on.
 
 ## Done
-
+- Understanding Compute Shaders Studio
+- Ray tracing in 2D done

@@ -23,15 +23,18 @@ offset_top = -86.3086
 offset_right = 26.0
 offset_bottom = -63.3086
 text = "Retina"
+metadata/_edit_use_anchors_ = true
 
 [node name="Matrice3D" type="Sprite2D" parent="."]
-position = Vector2(666.5, 243.5)
-scale = Vector2(2.69531, 2.71094)
+position = Vector2(687, 240)
+scale = Vector2(2.875, 2.73438)
 texture = ExtResource("1_oho0l")
 
 [node name="Label" type="Label" parent="Matrice3D"]
-offset_left = -38.029
-offset_top = -89.8213
-offset_right = 37.971
-offset_bottom = -66.8213
-text = "3D Matrix"
+offset_left = -38.261
+offset_top = -86.309
+offset_right = 37.739
+offset_bottom = -63.309
+text = "3D Matrix
+"
+metadata/_edit_use_anchors_ = true
