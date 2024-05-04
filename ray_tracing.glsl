@@ -7,27 +7,31 @@ void main() {
   // Init
   if (step == 0) {
     if (((x / 16 + y / 16)) % 2 == 0)
-      // data_1[p] = 0xFF000000 + (int(x) + 128*int(y)) ;
+      //data_1[p] = 0xFF000000 + (int(x) + 128*int(y)) ;
       data_1[p] = 0xFF000000;
   }
 
   // RayTracing
   /******************** 3D Matrix variables ********************/
   // Position
-  float pos_mat_3D_x = 0.0;
-  float pos_mat_3D_y = 0.0; // 100.0 * sin(step / 100.0);
-  float pos_mat_3D_z = 0.0; //-100 + 100.0 * sin(step / 50.0);
+  //float pos_mat_3D.x = 0.0;
+  //float pos_mat_3D.y = 0.0; // 100.0 * sin(step / 100.0);
+  //float pos_mat_3D.z = 0.0; //-100 + 100.0 * sin(step / 50.0);
+  vec3 pos_mat_3D = vec3(0.0, 0.0, 0.0);
+
   // Size
-  float size_mat_3D_x = 128.0;
-  float size_mat_3D_y = 128.0;
-  float size_mat_3D_z = 1.0;
+  //float size_mat_3D.x = 128.0;
+  //float size_mat_3D.y = 128.0;
+  //float size_mat_3D.z = 1.0;
+  vec3 size_mat_3D = vec3(128.0, 128.0, 128.0);
+
   /******************** Retina variables ********************/
   // Position
   float pos_ret_x = 64.0;
   float pos_ret_y = 64.0;
   float pos_ret_z = 64.0;
   // Size
-  float size_ret = 8.0;
+  float size_ret = 10.0;
 
   /******************** Eye variables ********************/
   float pos_eye_x = pos_ret_x + (size_ret / 2);
@@ -36,8 +40,8 @@ void main() {
 
   /******************** Ray variables ********************/
   // Position
-  float pos_ray_x = pos_ret_x + x * size_ret / size_mat_3D_x;
-  float pos_ray_y = pos_ret_y + y * size_ret / size_mat_3D_y;
+  float pos_ray_x = pos_ret_x + x * size_ret / size_mat_3D.x;
+  float pos_ray_y = pos_ret_y + y * size_ret / size_mat_3D.y;
   float pos_ray_z = pos_ret_z;
   // Direction
   float dir_ray_x = pos_ray_x - pos_eye_x;
@@ -65,7 +69,7 @@ void main() {
 
   int color = 0; // color init
   // Calculating the diagonal distance across the 3D matrix
-  float diagonal_distance = sqrt(pow(size_mat_3D_x, 2) + pow(size_ret, 2));
+  float diagonal_distance = sqrt(pow(size_mat_3D.x, 2) + pow(size_ret, 2));
 
   // Safety margin (10%)
   float safety_margin = 0.1 * diagonal_distance;
@@ -76,12 +80,12 @@ void main() {
   if (step > 0) {
     for (int i = 0; i < MAX_RAY_LENGTH; i++) {
       // Is in 3D Matrix
-      if (pos_ray_x >= pos_mat_3D_x && pos_ray_y >= pos_mat_3D_y &&
-          pos_ray_z >= pos_mat_3D_z &&
-          pos_ray_x < (pos_mat_3D_x + size_mat_3D_x) &&
-          pos_ray_y < (pos_mat_3D_y + size_mat_3D_y) &&
-          pos_ray_z < (pos_mat_3D_z + size_mat_3D_z)) {
-        int pos_ray = int(pos_ray_x) + int(pos_ray_y) * int(size_mat_3D_x);
+      if (pos_ray_x >= pos_mat_3D.x && pos_ray_y >= pos_mat_3D.y &&
+          pos_ray_z >= pos_mat_3D.z &&
+          pos_ray_x < (pos_mat_3D.x + size_mat_3D.x) &&
+          pos_ray_y < (pos_mat_3D.y + size_mat_3D.y) &&
+          pos_ray_z < (pos_mat_3D.z + size_mat_3D.z)) {
+        int pos_ray = int(pos_ray_x) + int(pos_ray_y) * int(size_mat_3D.x);
         color = data_1[pos_ray] == 0xFF000000 ? data_1[pos_ray] : 0x00FFFFFF;
         break; // If we've reached this far it means that the ray traveled
                // through of the 3d matrix so we can move on to the next position

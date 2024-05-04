@@ -7,8 +7,7 @@
 
 [node name="ComputeShaderStudio2D" type="Node" parent="." node_paths=PackedStringArray("data")]
 script = ExtResource("2_tleyh")
-print_step = true
-glsl_file = "res://ray_tracing.c"
+glsl_file = "res://ray_tracing.glsl"
 GLSL_code = ""
 data = [NodePath("../Retina"), NodePath("../Matrice3D")]
 
