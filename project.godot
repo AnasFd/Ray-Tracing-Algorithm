@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Ray-Tracing-Algorithm"
-run/main_scene="res://ray_tracing.tscn"
+run/main_scene="res://compute-shader/ray_tracing.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/compute_shader_studio/plugin.cfg")
+enabled=PackedStringArray()
 
 [input]
 

@@ -1,16 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://c8048kcgnofr5"]
 
+[ext_resource type="Script" path="res://test-gdcript/test_gd.gd" id="1_g78xh"]
 [ext_resource type="Texture2D" uid="uid://bxg44gn0bmjva" path="res://icon.svg" id="1_oho0l"]
-[ext_resource type="Script" path="res://addons/compute_shader_studio/compute_shader_studio_2d.gd" id="2_tleyh"]
 
 [node name="RayTracing" type="Node2D"]
 
-[node name="ComputeShaderStudio2D" type="Node" parent="." node_paths=PackedStringArray("data")]
-script = ExtResource("2_tleyh")
-print_step = true
-glsl_file = "res://ray_tracing.cpp"
-GLSL_code = ""
-data = [NodePath("../Retina"), NodePath("../Matrice3D")]
+[node name="TestGD" type="Node2D" parent="."]
+script = ExtResource("1_g78xh")
 
 [node name="Retina" type="Sprite2D" parent="."]
 position = Vector2(229, 240)

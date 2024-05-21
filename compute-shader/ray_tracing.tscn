@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8048kcgnofr5"]
+
+[ext_resource type="Script" path="res://compute-shader/addons/compute_shader_studio/compute_shader_studio_2d.gd" id="1_jjmt5"]
+[ext_resource type="Texture2D" uid="uid://bxg44gn0bmjva" path="res://icon.svg" id="2_5kt3y"]
+
+[node name="RayTracing" type="Node2D"]
+
+[node name="ComputeShaderStudio2D" type="Node" parent="." node_paths=PackedStringArray("data")]
+script = ExtResource("1_jjmt5")
+print_step = true
+glsl_file = "res://compute-shader/ray_tracing.cpp"
+GLSL_code = ""
+data = [NodePath("../Retina"), NodePath("../Matrice3D")]
+
+[node name="Retina" type="Sprite2D" parent="."]
+position = Vector2(229, 240)
+scale = Vector2(2.875, 2.73438)
+texture = ExtResource("2_5kt3y")
+
+[node name="Label" type="Label" parent="Retina"]
+offset_left = -24.0
+offset_top = -86.3086
+offset_right = 26.0
+offset_bottom = -63.3086
+text = "Retina"
+metadata/_edit_use_anchors_ = true
+
+[node name="Matrice3D" type="Sprite2D" parent="."]
+position = Vector2(687, 240)
+scale = Vector2(2.875, 2.73438)
+texture = ExtResource("2_5kt3y")
+
+[node name="Label" type="Label" parent="Matrice3D"]
+offset_left = -38.261
+offset_top = -86.309
+offset_right = 37.739
+offset_bottom = -63.309
+text = "3D Matrix
+"
+metadata/_edit_use_anchors_ = true
