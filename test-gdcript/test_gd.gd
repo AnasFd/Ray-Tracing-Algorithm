@@ -10,7 +10,7 @@ func _ready():
 			input_1.append(randi())
 	data_0 = input_1.to_byte_array()
 
-	var input_2 = PackedInt64Array()
+	var input_2 = PackedInt32Array()
 	for i in range(WSX):
 		for j in range(WSY):
 			input_2.append(randi())
@@ -49,7 +49,7 @@ func _process(delta):
 
   			#******************** Retina variables ********************/
 			# Position
-			var pos_ret:Vector3 = Vector3(64.0, 64.0, 100.0 * sin(step / 50.0))
+			var pos_ret:Vector3 = Vector3(64.0, 64.0, 100.0 * absf(sin(step / 10.0)))
 			# Size
 			var size_ret:float = 1.0
 
@@ -100,17 +100,20 @@ func _process(delta):
 						pos_ray.y < (pos_mat_3D.y + size_mat_3D.y) && \
 						pos_ray.z < (pos_mat_3D.z + size_mat_3D.z)):
 						var p_ray:int = int(pos_ray.x) + int(pos_ray.y) * int(size_mat_3D.y)
-						color = data_1[p_ray]
+						color = (data_1[p_ray] << 24) + (data_1[p_ray+1] << 16) + (data_1[p_ray+2] << 8) + (data_1[p_ray+3])
 						break # If we've reached this far it means that the ray traveled through of the 3d matrix so we can move on to the next position
 					pos_ray = pos_ray + dir_ray
-				data_0[p] = color
-
+				data_0[p*4] = (color & 0xFF000000) >> 24
+				data_0[p*4 + 1] = (color & 0x00FF0000) >> 16
+				data_0[p*4 + 2] = (color & 0x0000FF00) >> 8
+				data_0[p*4 + 3] = (color & 0x000000FF)
 	afficher_retine()
 	step = step + 1
 
 func afficher_retine():
 	var disp : Node = $"../Retina"
 	var values : PackedByteArray = data_0
+		
 	var img : Image = Image.create_from_data(WSX, WSY, false, Image.FORMAT_RGBA8, values)
 	var tex : Texture2D = ImageTexture.create_from_image(img)
 	
