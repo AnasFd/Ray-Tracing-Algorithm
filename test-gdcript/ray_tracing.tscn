@@ -9,8 +9,8 @@
 script = ExtResource("1_g78xh")
 
 [node name="Retina" type="Sprite2D" parent="."]
-position = Vector2(293, 306)
-scale = Vector2(3.875, 3.76563)
+position = Vector2(285, 309.5)
+scale = Vector2(4.1875, 3.80469)
 texture = ExtResource("1_oho0l")
 
 [node name="Label" type="Label" parent="Retina"]
@@ -22,7 +22,7 @@ text = "Retina"
 metadata/_edit_use_anchors_ = true
 
 [node name="Matrice3D" type="Sprite2D" parent="."]
-position = Vector2(905, 309)
+position = Vector2(854, 310)
 scale = Vector2(4.38281, 3.8125)
 texture = ExtResource("1_oho0l")
 
