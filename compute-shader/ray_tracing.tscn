@@ -13,8 +13,8 @@ GLSL_code = ""
 data = [NodePath("../Retina"), NodePath("../Matrice3D")]
 
 [node name="Retina" type="Sprite2D" parent="."]
-position = Vector2(229, 240)
-scale = Vector2(2.875, 2.73438)
+position = Vector2(295, 355)
+scale = Vector2(4.125, 3.89844)
 texture = ExtResource("2_5kt3y")
 
 [node name="Label" type="Label" parent="Retina"]
@@ -26,8 +26,8 @@ text = "Retina"
 metadata/_edit_use_anchors_ = true
 
 [node name="Matrice3D" type="Sprite2D" parent="."]
-position = Vector2(687, 240)
-scale = Vector2(2.875, 2.73438)
+position = Vector2(852, 355)
+scale = Vector2(4.302, 3.898)
 texture = ExtResource("2_5kt3y")
 
 [node name="Label" type="Label" parent="Matrice3D"]

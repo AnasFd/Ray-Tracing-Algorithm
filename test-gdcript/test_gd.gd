@@ -27,7 +27,6 @@ class Ray:
 var matrix = Matrix.new()
 var retina = Retina.new()
 var eye = Eye.new()
-var ray = Ray.new()
 var MAX_RAY_LENGTH:int
 var color: int = 0  # color ini
 
@@ -86,7 +85,7 @@ func _process(delta):
 	eye.Position = Vector3(retina.Position.x + (retina.Width / 2),
 						   retina.Position.y + (retina.Lenght / 2),
 						   retina.Position.z + 10)
-	
+	var ray = Ray.new()
 	## ROTATION ##
 	var angle = 5*step
 	rotate_eye_and_retina(angle)
