@@ -10,7 +10,7 @@ script = ExtResource("1_jjmt5")
 print_step = true
 glsl_file = "res://compute-shader/ray_tracing.cpp"
 GLSL_code = ""
-data = [NodePath("../Retina"), NodePath("../Matrice3D")]
+data = [NodePath("../Retina"), NodePath("../Matrice3D"), NodePath("../Matrice3D2")]
 
 [node name="Retina" type="Sprite2D" parent="."]
 position = Vector2(295, 355)
@@ -38,3 +38,8 @@ offset_bottom = -63.309
 text = "3D Matrix
 "
 metadata/_edit_use_anchors_ = true
+
+[node name="Matrice3D2" type="Sprite2D" parent="."]
+position = Vector2(4517.3, 1738.79)
+scale = Vector2(18.5072, 15.1944)
+texture = ExtResource("2_5kt3y")
