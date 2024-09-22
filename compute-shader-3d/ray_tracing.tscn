@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://uvdu78sks4la"]
 
-[ext_resource type="Script" path="res://compute-shader/addons/compute_shader_studio/compute_shader_studio_2d.gd" id="1_m2fhj"]
+[ext_resource type="Script" path="res://compute-shader-3d/addons/compute_shader_studio/compute_shader_studio_2d.gd" id="1_absoy"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_gyg2d"]
 
@@ -14,24 +14,26 @@ image_size = Vector2(128, 128)
 [node name="RayTracing" type="Node2D"]
 
 [node name="ComputeShaderStudio2D" type="Node" parent="." node_paths=PackedStringArray("data")]
-script = ExtResource("1_m2fhj")
+script = ExtResource("1_absoy")
 print_step = true
 glsl_file = "res://compute-shader-3d/ray_tracing.cpp"
 GLSL_code = ""
 data = [NodePath("../Retina"), NodePath("../Matrice3D")]
 
 [node name="Retina" type="TextureRect" parent="."]
-anchors_preset = -1
-offset_left = 28.0
-offset_right = 1148.0
-offset_bottom = 638.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.00812937
+offset_left = 273.0
+offset_top = 69.0
+offset_right = 401.0
+offset_bottom = 197.0
+scale = Vector2(4, 4)
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = SubResource("MeshTexture_6ysb1")
 
 [node name="Matrice3D" type="TextureRect" parent="."]
-offset_right = 128.0
-offset_bottom = 128.0
+offset_left = 140.0
+offset_top = -47.0
+offset_right = 268.0
+offset_bottom = 81.0
 rotation = -1.5784
 texture = SubResource("MeshTexture_6ysb1")

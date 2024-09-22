@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Ray-Tracing-Algorithm"
-run/main_scene="res://compute-shader/ray_tracing.tscn"
+run/main_scene="res://compute-shader-3d/ray_tracing.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 

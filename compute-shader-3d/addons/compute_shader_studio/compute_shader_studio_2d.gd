@@ -84,8 +84,6 @@ var bindings		: Array = []
 var pipeline		: RID
 var uniform_set		: RID
 
-var image_texture_3d: ImageTexture3D
-
 # Called when the node enters the scene tree for the first time.
 #region _ready
 func _ready():
@@ -109,7 +107,6 @@ func compile():
 	GLSL_header += """
 uint WSX="""+str(WSX)+""";"""+"""
 uint WSY="""+str(WSY)+""";
-uint WSZ=2;
 """
 
 	for i in nb_buffers:
@@ -145,48 +142,7 @@ layout(binding = """+str(i+2)+""") buffer Data"""+str(i)+""" {
 	# *********************
 	# *  BUFFERS CREATION *
 	# *********************
-	# Test 3D No time :/ ...
-	#image_texture_3d = ImageTexture3D.new()
-	#var width = WSX
-	#var height = WSY
-	#var depth = 2
-	#var image_layers = []
-
-	#for z in range(depth):
-		#var img = Image.new()
-		#img.create(width, height, false, Image.FORMAT_RGBA8)
-		#img.lock()
-		#for y in range(height):
-			#for x in range(width):
-				#var color = Color(0, 0, 0, 1)
-				#if z == 0:
-					#if x <= 64:
-						#if y <= 64:
-							#color = Color(0, 1, 0, 1)  # Green
-						#else:
-							#color = Color(1, 1, 1, 1)  # White
-					#else:
-						#if y <= 64:
-							#color = Color(0, 0, 1, 1)  # Blue
-						#else:
-							#color = Color(1, 0, 0, 1)  # Red
-				#else:
-					#if x <= 64:
-						#if y <= 64:
-							#color = Color(1, 1, 0, 1)  # Light blue
-						#else:
-							#color = Color(0.66, 0.66, 0.66, 1)  # Gray
-					#else:
-						#if y <= 64:
-							#color = Color(1, 1, 0.5, 1)  # Yellow
-						#else:
-							#color = Color(1, 0.3, 0.77, 1)  # Pink
-				#img.set_pixel(x, y, color)
-		#img.unlock()
-		#image_layers.append(img)
-	#image_texture_3d.create(Image.FORMAT_RGBA8, width, height, depth, false, image_layers)
-
-
+	
 	# Buffer for current_pass
 	var input_params :PackedInt32Array = PackedInt32Array()
 	input_params.append(step)

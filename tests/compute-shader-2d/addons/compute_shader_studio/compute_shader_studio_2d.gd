@@ -1,5 +1,5 @@
 extends Node
-class_name ComputeShaderStudio2
+#class_name ComputeShaderStudio2D
 
 var current_pass 	: int = 0
 
@@ -107,7 +107,6 @@ func compile():
 	GLSL_header += """
 uint WSX="""+str(WSX)+""";"""+"""
 uint WSY="""+str(WSY)+""";
-uint WSZ=10;
 """
 
 	for i in nb_buffers:
